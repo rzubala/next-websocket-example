@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import io, { Socket } from 'socket.io-client'
-let socket;
 
 const Home = () => {
   const [input, setInput] = useState('')
+  const [socket, setSocket] = useState(undefined)
 
-  useEffect(() => {
-    socketInitializer()
-  }, [])
-
-  const socketInitializer = async () => {
-    socket = io()
+  const socketInit = useCallback(async () => {
+    await fetch('/api/socket')
+    const socket = io()
+    setSocket(socket)
 
     socket.on('connect', () => {
       console.log('connected')
@@ -24,7 +22,11 @@ const Home = () => {
       console.log('update-input', msg)
       setInput(msg)
     })
-  }
+  }, [])
+
+  useEffect(() => {
+    socketInit();
+  }, [])
 
   const onChangeHandler = (e) => {
     setInput(e.target.value)
