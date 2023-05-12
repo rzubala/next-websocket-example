@@ -7,7 +7,8 @@ const Home = () => {
 
   const socketInit = useCallback(async () => {
     await fetch('/api/socket')
-    const socket = io()
+    //const socket = io('/api/socket', { transports: ["websocket"] });
+    const socket = io();
     setSocket(socket)
 
     socket.on('connect', () => {
