@@ -40,6 +40,11 @@ const Home = () => {
       onChange={onChangeHandler}
     />
   )
+
+}
+
+export async function getServerSideProps() {
+  return { props: {} };
 }
 
 export default Home;
